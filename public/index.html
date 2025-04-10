@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vagas Brasil - Encontre Seu Emprego</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>VAGAS BRASIL</h1>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="#vagas">Vagas em Destaque</a></li>
+                    <li><a href="todas-vagas.html">Todas as Vagas</a></li>
+                    <li><a href="#sobre">Sobre</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Seção de Destaque -->
+    <section id="hero" class="container">
+        <div class="hero-content">
+            <h2>Encontre o Emprego dos Seus Sonhos</h2>
+            <p>Milhares de vagas atualizadas diariamente em todo o Brasil.</p>
+            <input type="text" id="busca" placeholder="Pesquise por cargo ou cidade...">
+            <button onclick="buscarVagas()" class="btn-buscar">Buscar</button>
+            <p><a href="todas-vagas.html" class="link-todas-vagas">Ver todas as vagas disponíveis</a></p>
+        </div>
+    </section>
+
+    <!-- Seção de Vagas Disponíveis -->
+    <section id="vagas" class="container">
+        <h2>Vagas em Destaque</h2>
+        <div id="lista-vagas">
+            <div class="vaga" data-categoria="tecnologia">
+                <h3>Desenvolvedor Front-End</h3>
+                <p><strong>Empresa:</strong> Tech Solutions</p>
+                <p><strong>Localização:</strong> São Paulo, SP</p>
+                <p><strong>Salário:</strong> R$ 5.000,00</p>
+                <p>Desenvolvimento de interfaces web com React e CSS. Experiência de 2 anos requerida.</p>
+                <span class="tag novo">Novo</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="marketing">
+                <h3>Analista de Marketing</h3>
+                <p><strong>Empresa:</strong> Creative Agency</p>
+                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+                <p><strong>Salário:</strong> R$ 3.500,00</p>
+                <p>Planejamento de campanhas digitais e análise de métricas. Conhecimento em Google Ads é um diferencial.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="administrativo">
+                <h3>Assistente Administrativo</h3>
+                <p><strong>Empresa:</strong> Empresa XYZ</p>
+                <p><strong>Localização:</strong> Belo Horizonte, MG</p>
+                <p><strong>Salário:</strong> Não informado</p>
+                <p>Suporte em rotinas administrativas e atendimento ao cliente.</p>
+                <span class="tag urgente">Urgente</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Sobre -->
+    <section id="sobre" class="container">
+        <h2>Sobre Nós</h2>
+        <p>Somos a Vagas Brasil, uma plataforma dedicada a conectar profissionais às melhores oportunidades de emprego no Brasil. Confira todas as vagas disponíveis em nossa página dedicada!</p>
+    </section>
+
+    <!-- Seção Contato -->
+    <section id="contato" class="container">
+        <h2>Entre em Contato</h2>
+        <form id="form-contato">
+            <input type="text" placeholder="Seu nome" required>
+            <input type="email" placeholder="Seu e-mail" required>
+            <textarea placeholder="Sua mensagem" required></textarea>
+            <button type="submit" class="btn-enviar">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2025 Vagas Brasil. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function buscarVagas() {
+            const termo = document.getElementById('busca').value.toLowerCase();
+            const vagas = document.querySelectorAll('.vaga');
+            vagas.forEach(vaga => {
+                const texto = vaga.innerText.toLowerCase();
+                vaga.style.display = texto.includes(termo) ? 'block' : 'none';
+            });
+        }
+
+        document.querySelectorAll('.vaga').forEach(vaga => {
+            vaga.addEventListener('mouseover', () => {
+                vaga.style.transform = 'scale(1.02)';
+                vaga.style.transition = 'transform 0.3s ease';
+            });
+            vaga.addEventListener('mouseout', () => {
+                vaga.style.transform = 'scale(1)';
+            });
+        });
+
+        document.getElementById('form-contato').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Mensagem enviada com sucesso!');
+            e.target.reset();
+        });
+
+        // Função para abrir/fechar o menu hambúrguer
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

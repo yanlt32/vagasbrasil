@@ -1,0 +1,332 @@
+:root {
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #f59e0b;
+    --success: #10b981;
+    --success-dark: #059669;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #94a3b8;
+    --gray-light: #e2e8f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    color: var(--dark);
+    background-color: var(--light);
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 25px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    right: 20px;
+}
+
+.hamburger span {
+    background-color: white;
+    height: 3px;
+    width: 100%;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+nav .menu {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 15px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+nav a:hover {
+    background-color: var(--secondary);
+    color: white;
+}
+
+#busca-vagas {
+    padding: 60px 0;
+    background-color: var(--gray-light);
+    text-align: center;
+}
+
+#busca-vagas h2 {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 20px;
+    font-weight: 700;
+    position: relative;
+}
+
+#busca-vagas h2::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: var(--secondary);
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+#busca-vagas p {
+    font-size: 1.2rem;
+    color: var(--gray);
+    margin-bottom: 30px;
+}
+
+.busca-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#busca-vagas input {
+    width: 70%;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#busca-vagas input:focus {
+    outline: none;
+    box-shadow: 0 3px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-buscar {
+    background-color: var(--secondary);
+    color: white;
+    padding: 15px 35px;
+    border: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-buscar:hover {
+    background-color: #d97706;
+    transform: scale(1.05);
+}
+
+#vagas {
+    margin: 50px 0;
+    padding: 0 20px;
+}
+
+#lista-vagas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* centraliza os cards horizontalmente */
+    gap: 20px; /* espaçamento entre os cards */
+    max-width: 1200px; /* limite opcional pra não esticar demais */
+    margin: 0 auto; /* centraliza o container na página */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+
+.vaga {
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--gray-light);
+    width: 360px;
+    max-width: 100%;
+    transition: all 0.3s ease;
+    animation: slideIn 0.4s ease forwards;
+    margin: 0 auto; /* Centraliza horizontalmente */
+    text-align: center; /* Alinha texto no centro */
+}
+
+
+.vaga:hover {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.vaga h3 {
+    color: var(--dark);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.vaga p {
+    margin: 8px 0;
+    font-size: 1rem;
+    color: var(--gray);
+}
+
+.vaga p strong {
+    color: var(--dark);
+}
+
+.vaga .tag {
+    background-color: var(--gray-light);
+    color: var(--dark);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.vaga .tag.novo {
+    background-color: var(--success);
+    color: white;
+}
+
+.vaga .tag.urgente {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.btn-candidatar {
+    display: inline-block;
+    background-color: var(--success);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-candidatar:hover {
+    background-color: var(--success-dark);
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--dark);
+    color: white;
+    font-size: 1rem;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8rem;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+
+    nav .menu {
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        padding: 20px 0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    nav .menu.active {
+        display: flex;
+    }
+
+    nav a {
+        padding: 12px 20px;
+        font-size: 1.1rem;
+    }
+
+    .busca-container {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    #busca-vagas input,
+    .btn-buscar {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    #lista-vagas {
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+    }
+
+    .vaga {
+        padding: 20px;
+        width: 90%;
+    }
+}

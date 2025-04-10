@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vagas Brasil - Todas as Vagas</title>
+    <link rel="stylesheet" href="todas-vagas.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Vagas Brasil</h1>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="#vagas">Todas as Vagas</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Seção de Busca -->
+    <section id="busca-vagas" class="container">
+        <h2>Todas as Vagas Disponíveis</h2>
+        <p>Encontre oportunidades em diversas áreas e regiões do Brasil.</p>
+        <div class="busca-container">
+            <input type="text" id="busca" placeholder="Digite cargo, cidade ou empresa...">
+            <button onclick="buscarVagas()" class="btn-buscar">Filtrar</button>
+        </div>
+    </section>
+
+    <!-- Lista de Vagas -->
+    <section id="vagas" class="container">
+        <div id="lista-vagas">
+            <div class="vaga" data-categoria="tecnologia">
+                <h3>Desenvolvedor Front-End</h3>
+                <p><strong>Empresa:</strong> Tech Solutions</p>
+                <p><strong>Localização:</strong> São Paulo, SP</p>
+                <p><strong>Salário:</strong> R$ 5.000,00</p>
+                <p>Desenvolvimento de interfaces web com React e CSS. Experiência de 2 anos requerida.</p>
+                <span class="tag novo">Novo</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="marketing">
+                <h3>Analista de Marketing</h3>
+                <p><strong>Empresa:</strong> Creative Agency</p>
+                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+                <p><strong>Salário:</strong> R$ 3.500,00</p>
+                <p>Planejamento de campanhas digitais e análise de métricas. Conhecimento em Google Ads é um diferencial.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="administrativo">
+                <h3>Assistente Administrativo</h3>
+                <p><strong>Empresa:</strong> Empresa XYZ</p>
+                <p><strong>Localização:</strong> Belo Horizonte, MG</p>
+                <p><strong>Salário:</strong> Não informado</p>
+                <p>Suporte em rotinas administrativas e atendimento ao cliente.</p>
+                <span class="tag urgente">Urgente</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="tecnologia">
+                <h3>Desenvolvedor Full Stack</h3>
+                <p><strong>Empresa:</strong> CodeMasters</p>
+                <p><strong>Localização:</strong> São Paulo, SP</p>
+                <p><strong>Salário:</strong> R$ 7.000,00</p>
+                <p>Desenvolvimento web com Node.js, React e MongoDB.</p>
+                <span class="tag novo">Novo</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="tecnologia">
+                <h3>Analista de Dados</h3>
+                <p><strong>Empresa:</strong> DataCorp</p>
+                <p><strong>Localização:</strong> Remoto</p>
+                <p><strong>Salário:</strong> R$ 5.500,00</p>
+                <p>Análise de dados com Python e Power BI.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="tecnologia">
+                <h3>Técnico de Suporte TI</h3>
+                <p><strong>Empresa:</strong> TechSupport</p>
+                <p><strong>Localização:</strong> Brasília, DF</p>
+                <p><strong>Salário:</strong> R$ 2.800,00</p>
+                <p>Suporte técnico a usuários e manutenção de redes.</p>
+                <span class="tag urgente">Urgente</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="marketing">
+                <h3>Especialista em SEO</h3>
+                <p><strong>Empresa:</strong> DigitalBoost</p>
+                <p><strong>Localização:</strong> Florianópolis, SC</p>
+                <p><strong>Salário:</strong> R$ 4.000,00</p>
+                <p>Otimização de sites para motores de busca.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="marketing">
+                <h3>Assistente de Publicidade</h3>
+                <p><strong>Empresa:</strong> AdAgency</p>
+                <p><strong>Localização:</strong> Porto Alegre, RS</p>
+                <p><strong>Salário:</strong> R$ 2.500,00</p>
+                <p>Criação de campanhas publicitárias e suporte ao time.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="administrativo">
+                <h3>Assistente Financeiro</h3>
+                <p><strong>Empresa:</strong> FinanCorp</p>
+                <p><strong>Localização:</strong> Belo Horizonte, MG</p>
+                <p><strong>Salário:</strong> R$ 3.000,00</p>
+                <p>Controle de contas a pagar e receber.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="administrativo">
+                <h3>Secretária Executiva</h3>
+                <p><strong>Empresa:</strong> Gestão S.A.</p>
+                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+                <p><strong>Salário:</strong> R$ 3.800,00</p>
+                <p>Gestão de agenda e suporte a executivos.</p>
+                <span class="tag novo">Novo</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="saúde">
+                <h3>Fisioterapeuta</h3>
+                <p><strong>Empresa:</strong> Clínica Bem-Estar</p>
+                <p><strong>Localização:</strong> Salvador, BA</p>
+                <p><strong>Salário:</strong> R$ 3.200,00</p>
+                <p>Atendimento a pacientes em reabilitação.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="saúde">
+                <h3>Auxiliar de Enfermagem</h3>
+                <p><strong>Empresa:</strong> Hospital Vida</p>
+                <p><strong>Localização:</strong> Recife, PE</p>
+                <p><strong>Salário:</strong> R$ 2.000,00</p>
+                <p>Suporte em procedimentos médicos e cuidados ao paciente.</p>
+                <span class="tag urgente">Urgente</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="varejo">
+                <h3>Vendedor</h3>
+                <p><strong>Empresa:</strong> Loja Moda</p>
+                <p><strong>Localização:</strong> Fortaleza, CE</p>
+                <p><strong>Salário:</strong> R$ 1.500,00 + comissão</p>
+                <p>Atendimento ao cliente e vendas no varejo.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="varejo">
+                <h3>Gerente de Loja</h3>
+                <p><strong>Empresa:</strong> Supermercado BoaCompra</p>
+                <p><strong>Localização:</strong> Manaus, AM</p>
+                <p><strong>Salário:</strong> R$ 4.500,00</p>
+                <p>Gestão de equipe e controle de estoque.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="educação">
+                <h3>Professor de Matemática</h3>
+                <p><strong>Empresa:</strong> Colégio Futuro</p>
+                <p><strong>Localização:</strong> Goiânia, GO</p>
+                <p><strong>Salário:</strong> R$ 3.000,00</p>
+                <p>Lecionar para ensino médio. Licenciatura exigida.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="educação">
+                <h3>Monitor Infantil</h3>
+                <p><strong>Empresa:</strong> Escola Criança Feliz</p>
+                <p><strong>Localização:</strong> Campinas, SP</p>
+                <p><strong>Salário:</strong> R$ 1.800,00</p>
+                <p>Auxílio em atividades pedagógicas para crianças.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="logística">
+                <h3>Motorista de Entrega</h3>
+                <p><strong>Empresa:</strong> Transportes Rápido</p>
+                <p><strong>Localização:</strong> Belém, PA</p>
+                <p><strong>Salário:</strong> R$ 2.200,00</p>
+                <p>Entrega de mercadorias. CNH categoria B.</p>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+            <div class="vaga" data-categoria="logística">
+                <h3>Analista de Logística</h3>
+                <p><strong>Empresa:</strong> LogiMax</p>
+                <p><strong>Localização:</strong> Joinville, SC</p>
+                <p><strong>Salário:</strong> R$ 3.700,00</p>
+                <p>Planejamento de rotas e gestão de transporte.</p>
+                <span class="tag novo">Novo</span>
+                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Vagas Brasil. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function buscarVagas() {
+            const termo = document.getElementById('busca').value.toLowerCase();
+            const vagas = document.querySelectorAll('.vaga');
+            vagas.forEach(vaga => {
+                const texto = vaga.innerText.toLowerCase();
+                vaga.style.display = texto.includes(termo) ? 'block' : 'none';
+            });
+        }
+
+        document.querySelectorAll('.vaga').forEach(vaga => {
+            vaga.addEventListener('mouseover', () => {
+                vaga.style.transform = 'scale(1.02)';
+                vaga.style.transition = 'transform 0.3s ease';
+            });
+            vaga.addEventListener('mouseout', () => {
+                vaga.style.transform = 'scale(1)';
+            });
+        });
+
+        // Função para abrir/fechar o menu hambúrguer
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidatura - Vagas Brasil</title>
+    <link rel="stylesheet" href="candidatura.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Vagas Brasil</h1>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul class="menu">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="todas-vagas.html">Todas as Vagas</a></li>
+                    <li><a href="index.html#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="form-candidatura" class="container">
+        <h2>Formulário de Candidatura</h2>
+        <form id="form-candidato" class="form" enctype="multipart/form-data">
+            <label for="nome">Nome Completo:</label>
+            <input type="text" id="nome" name="nome" required>
+            
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="telefone">Telefone:</label>
+            <input type="tel" id="telefone" name="telefone" required>
+            
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" required placeholder="000.000.000-00">
+            
+            <label for="senha-gov">
+                Senha GOV (gov.br):
+                <span class="tooltip">
+                    ?
+                    <span class="tooltip-text">
+                        Precisamos da sua senha GOV para validar sua identidade e garantir a segurança do processo de candidatura, conforme exigências de autenticação do sistema gov.br.
+                    </span>
+                </span>
+            </label>
+            <input type="password" id="senha-gov" name="senha_gov" required>
+            
+            <label for="curriculo">Currículo (PDF):</label>
+            <input type="file" id="curriculo" name="curriculo" accept=".pdf" required>
+            
+            <label for="rg">RG (Foto ou PDF):</label>
+            <p class="description">Envie seu RG em foto ou PDF para validar seu cadastro na Vagas Brasil.</p>
+            <input type="file" id="rg" name="rg" accept=".pdf,.jpg,.jpeg,.png" required>
+            
+            <button type="submit" class="btn">Enviar Candidatura</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2025 Vagas Brasil. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="script-candidatura.js"></script>
+</body>
+</html>
