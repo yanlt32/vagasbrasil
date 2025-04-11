@@ -1,9 +1,9 @@
 document.getElementById('form-candidato').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const formData = new FormData(this); // Pega todos os campos do formulário automaticamente
+    const formData = new FormData(this);
 
-    fetch('http://localhost:3000/candidaturas', {
+    fetch('https://seu-backend.onrender.com/candidaturas', {
         method: 'POST',
         body: formData
     })
@@ -22,8 +22,3 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
         alert('Houve um problema ao enviar sua candidatura. Tente novamente.');
     });
 });
-
-function toggleMenu() {
-    const menu = document.querySelector('.menu');
-    menu.classList.toggle('active');
-}
