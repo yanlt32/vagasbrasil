@@ -3,6 +3,11 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
 
     const formData = new FormData(this);
 
+    // Logar os dados enviados para depuração (opcional)
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
     fetch('/candidaturas', {
         method: 'POST',
         body: formData
