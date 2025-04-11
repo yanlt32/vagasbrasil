@@ -3,7 +3,7 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
 
     const formData = new FormData(this);
 
-    fetch('http://localhost:3000/candidaturas', { // Alterado para o backend local
+    fetch('/candidaturas', {
         method: 'POST',
         body: formData
     })
@@ -24,3 +24,8 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
         alert(`Houve um problema ao enviar sua candidatura: ${error.message}. Tente novamente.`);
     });
 });
+
+function toggleMenu() {
+    const menu = document.querySelector('.menu');
+    menu.classList.toggle('active');
+}
