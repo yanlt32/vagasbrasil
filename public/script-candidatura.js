@@ -3,13 +3,15 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
 
     const formData = new FormData(this);
 
-    fetch('https://seu-backend.onrender.com/candidaturas', {
+    fetch('http://localhost:3000/candidaturas', { // Alterado para o backend local
         method: 'POST',
         body: formData
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Erro ao enviar candidatura');
+            return response.text().then(text => {
+                throw new Error(`Erro ${response.status}: ${text}`);
+            });
         }
         return response.text();
     })
@@ -19,6 +21,6 @@ document.getElementById('form-candidato').addEventListener('submit', function(e)
     })
     .catch(error => {
         console.error('Erro:', error);
-        alert('Houve um problema ao enviar sua candidatura. Tente novamente.');
+        alert(`Houve um problema ao enviar sua candidatura: ${error.message}. Tente novamente.`);
     });
 });
