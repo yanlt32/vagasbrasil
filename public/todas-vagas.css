@@ -171,53 +171,37 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-#vagas {
-    margin: 50px 0;
-    padding: 0 20px;
-}
+
 
 #lista-vagas {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* centraliza os cards horizontalmente */
-    gap: 20px; /* espaçamento entre os cards */
-    max-width: 1200px; /* limite opcional pra não esticar demais */
-    margin: 0 auto; /* centraliza o container na página */
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    max-width: 600px;
+    margin: 0 auto;
     padding: 20px;
-    box-sizing: border-box;
-  }
-  
+}
 
 .vaga {
     background-color: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid var(--gray-light);
-    width: 360px;
-    max-width: 100%;
-    transition: all 0.3s ease;
-    animation: slideIn 0.4s ease forwards;
-    margin: 0 auto; /* Centraliza horizontalmente */
-    text-align: center; /* Alinha texto no centro */
-}
-
-
-.vaga:hover {
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
-    transform: translateY(-5px);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--primary);
+    position: relative;
 }
 
 .vaga h3 {
     color: var(--dark);
+    margin-bottom: 10px;
     font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 12px;
 }
 
 .vaga p {
-    margin: 8px 0;
-    font-size: 1rem;
+    margin: 6px 0;
     color: var(--gray);
 }
 
@@ -228,12 +212,13 @@ nav a:hover {
 .vaga .tag {
     background-color: var(--gray-light);
     color: var(--dark);
-    padding: 5px 12px;
-    border-radius: 15px;
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 0.8rem;
     font-weight: 500;
-    display: inline-block;
-    margin-top: 10px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .vaga .tag.novo {
@@ -247,22 +232,87 @@ nav a:hover {
 }
 
 .btn-candidatar {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background-color: var(--success);
     color: white;
-    padding: 10px 25px;
-    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 15px;
+    margin-top: 10px;
     transition: all 0.3s ease;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .btn-candidatar:hover {
     background-color: var(--success-dark);
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
+
+/* Sobre Section */
+#sobre {
+    text-align: center;
+}
+
+#sobre p {
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--gray);
+    font-size: 1.1rem;
+}
+
+/* Contato Section */
+#contato {
+    text-align: center;
+}
+
+#contato form {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+#contato input,
+#contato textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+#contato input:focus,
+#contato textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.btn-enviar {
+    background-color: var(--primary);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-enviar:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
 
 footer {
     text-align: center;
@@ -320,13 +370,10 @@ footer {
     }
 
     #lista-vagas {
-        flex-direction: column;
-        align-items: center;
-        gap: 25px;
+        padding: 10px;
     }
 
     .vaga {
         padding: 20px;
-        width: 90%;
     }
 }

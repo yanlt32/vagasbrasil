@@ -1,515 +1,1316 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vagas Brasil - Todas as Vagas</title>
-    <link rel="stylesheet" href="todas-vagas.css">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="todas-vagas.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        /* Estilos para a paginação */
+        .paginacao {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 20px 0;
+        }
+        .paginacao button {
+          padding: 10px 15px;
+          margin: 0 5px;
+          border: 1px solid #ccc;
+          background: #fff;
+          cursor: pointer;
+          border-radius: 5px;
+          font-size: 16px;
+        }
+        .paginacao button:hover {
+          background: #f0f0f0;
+        }
+        .paginacao button:disabled {
+          background: #e0e0e0;
+          cursor: not-allowed;
+        }
+        .paginacao span {
+          margin: 0 10px;
+          font-size: 16px;
+        }
+        /* Estilo para as vagas */
+        .vaga {
+          display: none; /* Escondidas por padrão */
+        }
+        .vaga.ativo {
+          display: block !important; /* Força a exibição */
+        }
+      </style>
+  </head>
+  <body>
     <header>
-        <div class="container">
-            <h1>Vagas Brasil</h1>
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <nav>
-                <ul class="menu">
-                    <li><a href="index.html">Início</a></li>
-                    <li><a href="#vagas">Todas as Vagas</a></li>
-                    <li><a href="index.html#contato">Contato</a></li>
-                </ul>
-            </nav>
+      <div class="container">
+        <h1>Vagas Brasil</h1>
+        <div class="hamburger" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+        <nav>
+          <ul class="menu">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="#vagas">Todas as Vagas</a></li>
+            <li><a href="index.html#contato">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <!-- Seção de Busca -->
     <section id="busca-vagas" class="container">
-        <h2>Todas as Vagas Disponíveis</h2>
-        <p>Encontre oportunidades em diversas áreas e regiões do Brasil.</p>
-        <div class="busca-container">
-            <input type="text" id="busca" placeholder="Digite cargo, cidade ou empresa...">
-            <button onclick="buscarVagas()" class="btn-buscar">Filtrar</button>
-        </div>
+      <h2>Todas as Vagas Disponíveis</h2>
+      <p>Encontre oportunidades em diversas áreas e regiões do Brasil.</p>
+      <div class="busca-container">
+        <input
+          type="text"
+          id="busca"
+          placeholder="Digite cargo, cidade ou empresa..."
+        />
+        <button onclick="buscarVagas()" class="btn-buscar">Filtrar</button>
+      </div>
     </section>
+
+    <!-- Seção de Vagas com Paginação -->
+    <section id="vagas" class="container">
+        <!-- Paginação (apenas no topo) -->
+        <div class="paginacao">
+          <button onclick="mudarPagina('anterior')">Anterior</button>
+          <span id="pagina-atual">Página 1</span>
+          <button onclick="mudarPagina('proxima')">Próxima</button>
+        </div>
 
     <!-- Lista de Vagas -->
     <section id="vagas" class="container">
-        <div id="lista-vagas">
-            <!-- Tecnologia -->
-            <div class="vaga" data-categoria="tecnologia">
-                <h3>Desenvolvedor Front-End</h3>
-                <p><strong>Empresa:</strong> Tech Solutions</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 5.000,00</p>
-                <p>Desenvolvimento de interfaces web com React e CSS. Experiência de 2 anos requerida.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="tecnologia">
-                <h3>Desenvolvedor Back-End Java</h3>
-                <p><strong>Empresa:</strong> Banco Itaú</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 8.500,00</p>
-                <p>Desenvolvimento de sistemas bancários com Java e Spring Boot. Experiência com microsserviços.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="tecnologia">
-                <h3>Analista de Sistemas</h3>
-                <p><strong>Empresa:</strong> Stefanini</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 6.200,00</p>
-                <p>Análise e desenvolvimento de sistemas corporativos. Conhecimento em SQL e modelagem de dados.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="tecnologia">
-                <h3>Engenheiro de Dados</h3>
-                <p><strong>Empresa:</strong> Nubank</p>
-                <p><strong>Localização:</strong> Remoto</p>
-                <p><strong>Salário:</strong> R$ 12.000,00</p>
-                <p>Construção e manutenção de pipelines de dados. Experiência com Python, Spark e AWS.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="tecnologia">
-                <h3>Especialista em Cibersegurança</h3>
-                <p><strong>Empresa:</strong> IBM</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 9.500,00</p>
-                <p>Proteção de sistemas contra ameaças digitais. Certificações em segurança são diferenciais.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Marketing -->
-            <div class="vaga" data-categoria="marketing">
-                <h3>Gerente de Marketing Digital</h3>
-                <p><strong>Empresa:</strong> Ambev</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 7.800,00</p>
-                <p>Gestão de estratégias digitais para marcas de bebidas. Experiência com mídias sociais e performance.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="marketing">
-                <h3>Analista de Mídias Sociais</h3>
-                <p><strong>Empresa:</strong> Magazine Luiza</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 3.800,00</p>
-                <p>Criação de conteúdo e gestão de comunidades online. Conhecimento em TikTok e Instagram.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="marketing">
-                <h3>Especialista em SEO</h3>
-                <p><strong>Empresa:</strong> Mercado Livre</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 5.500,00</p>
-                <p>Otimização de páginas de produtos para motores de busca. Experiência com Google Analytics.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Administrativo -->
-            <div class="vaga" data-categoria="administrativo">
-                <h3>Assistente Administrativo</h3>
-                <p><strong>Empresa:</strong> Grupo Pão de Açúcar</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 2.200,00</p>
-                <p>Suporte em rotinas administrativas e atendimento. Conhecimento em pacote Office.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="administrativo">
-                <h3>Analista Financeiro</h3>
-                <p><strong>Empresa:</strong> Santander</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 4.500,00</p>
-                <p>Análise de relatórios financeiros e projeções. Experiência com Excel avançado.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Saúde -->
-            <div class="vaga" data-categoria="saúde">
-                <h3>Enfermeiro Intensivista</h3>
-                <p><strong>Empresa:</strong> Hospital Albert Einstein</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 5.800,00</p>
-                <p>Atendimento em UTI. Necessário registro no COREN.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="saúde">
-                <h3>Médico Cardiologista</h3>
-                <p><strong>Empresa:</strong> Hospital Sírio-Libanês</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 18.000,00</p>
-                <p>Atendimento em cardiologia clínica. CRM ativo e especialização comprovada.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Varejo -->
-            <div class="vaga" data-categoria="varejo">
-                <h3>Gerente de Loja</h3>
-                <p><strong>Empresa:</strong> Renner</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 4.200,00 + bônus</p>
-                <p>Gestão de equipe comercial e operações de loja. Experiência no varejo de moda.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="varejo">
-                <h3>Vendedor Experiente</h3>
-                <p><strong>Empresa:</strong> Havan</p>
-                <p><strong>Localização:</strong> Santa Catarina, SC</p>
-                <p><strong>Salário:</strong> R$ 1.800,00 + comissão</p>
-                <p>Atendimento ao cliente e vendas de produtos diversos. Experiência no varejo.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Educação -->
-            <div class="vaga" data-categoria="educação">
-                <h3>Professor de Inglês</h3>
-                <p><strong>Empresa:</strong> Cultura Inglesa</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 3.500,00</p>
-                <p>Ministrar aulas para todos os níveis. Certificação CELTA ou equivalente.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="educação">
-                <h3>Coordenador Pedagógico</h3>
-                <p><strong>Empresa:</strong> Escola Internacional</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 6.000,00</p>
-                <p>Coordenação de equipe docente e desenvolvimento curricular. Experiência em escolas bilíngues.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Logística -->
-            <div class="vaga" data-categoria="logística">
-                <h3>Coordenador de Logística</h3>
-                <p><strong>Empresa:</strong> JSL</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 5.500,00</p>
-                <p>Planejamento de rotas e gestão de frota. Conhecimento em WMS e TMS.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="logística">
-                <h3>Motorista Caminhão</h3>
-                <p><strong>Empresa:</strong> Transportes Júlio</p>
-                <p><strong>Localização:</strong> Minas Gerais, MG</p>
-                <p><strong>Salário:</strong> R$ 3.200,00</p>
-                <p>Transporte de cargas gerais. CNH E e experiência em viagens interestaduais.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Construção Civil -->
-            <div class="vaga" data-categoria="construção">
-                <h3>Engenheiro Civil</h3>
-                <p><strong>Empresa:</strong> MRV</p>
-                <p><strong>Localização:</strong> Belo Horizonte, MG</p>
-                <p><strong>Salário:</strong> R$ 8.000,00</p>
-                <p>Gerenciamento de obras residenciais. CREA ativo e experiência em incorporadoras.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="construção">
-                <h3>Mestre de Obras</h3>
-                <p><strong>Empresa:</strong> Construtora Tenda</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 3.800,00</p>
-                <p>Coordenação de equipe de pedreiros e auxiliares. Experiência em obras habitacionais.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Indústria -->
-            <div class="vaga" data-categoria="indústria">
-                <h3>Técnico em Mecânica</h3>
-                <p><strong>Empresa:</strong> Volkswagen</p>
-                <p><strong>Localização:</strong> São Bernardo do Campo, SP</p>
-                <p><strong>Salário:</strong> R$ 3.500,00</p>
-                <p>Manutenção de máquinas industriais. Curso técnico em mecânica.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="indústria">
-                <h3>Operador de Máquinas</h3>
-                <p><strong>Empresa:</strong> Ambev</p>
-                <p><strong>Localização:</strong> Jaguariúna, SP</p>
-                <p><strong>Salário:</strong> R$ 2.800,00</p>
-                <p>Operação de máquinas de envase. Experiência em indústrias alimentícias.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- RH -->
-            <div class="vaga" data-categoria="rh">
-                <h3>Analista de Recrutamento</h3>
-                <p><strong>Empresa:</strong> Robert Half</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 4.200,00</p>
-                <p>Recrutamento e seleção para áreas de tecnologia. Experiência com LinkedIn Recruiter.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="rh">
-                <h3>Especialista em Benefícios</h3>
-                <p><strong>Empresa:</strong> IBM</p>
-                <p><strong>Localização:</strong> Hortolândia, SP</p>
-                <p><strong>Salário:</strong> R$ 5.000,00</p>
-                <p>Gestão de programas de benefícios corporativos. Conhecimento em planos de saúde.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Jurídico -->
-            <div class="vaga" data-categoria="jurídico">
-                <h3>Advogado Trabalhista</h3>
-                <p><strong>Empresa:</strong> Mattos Filho</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 7.500,00</p>
-                <p>Atuação em direito trabalhista para grandes clientes. OAB ativa.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="jurídico">
-                <h3>Assistente Jurídico</h3>
-                <p><strong>Empresa:</strong> Banco Bradesco</p>
-                <p><strong>Localização:</strong> Osasco, SP</p>
-                <p><strong>Salário:</strong> R$ 3.200,00</p>
-                <p>Suporte em processos jurídicos e administrativos. Conhecimento em direito bancário.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Design -->
-            <div class="vaga" data-categoria="design">
-                <h3>Designer Gráfico</h3>
-                <p><strong>Empresa:</strong> Agência DPZ</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 3.800,00</p>
-                <p>Criação de peças gráficas para campanhas publicitárias. Domínio do pacote Adobe.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="design">
-                <h3>UX/UI Designer</h3>
-                <p><strong>Empresa:</strong> iFood</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 6.500,00</p>
-                <p>Design de interfaces para aplicativos mobile. Portfólio obrigatório.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Gastronomia -->
-            <div class="vaga" data-categoria="gastronomia">
-                <h3>Chef de Cozinha</h3>
-                <p><strong>Empresa:</strong> Restaurante Fasano</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 5.500,00</p>
-                <p>Coordenação de equipe de cozinha em restaurante fino. Experiência em cozinha italiana.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="gastronomia">
-                <h3>Auxiliar de Cozinha</h3>
-                <p><strong>Empresa:</strong> Outback</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 1.800,00</p>
-                <p>Preparação de ingredientes e apoio ao chef. Experiência em cozinha profissional.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Turismo -->
-            <div class="vaga" data-categoria="turismo">
-                <h3>Guia de Turismo</h3>
-                <p><strong>Empresa:</strong> CVC</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 2.500,00 + comissão</p>
-                <p>Recepção e acompanhamento de turistas em pontos turísticos. Cadastur obrigatório.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="turismo">
-                <h3>Agente de Viagens</h3>
-                <p><strong>Empresa:</strong> Decolar</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 2.200,00 + comissão</p>
-                <p>Venda de pacotes turísticos e atendimento ao cliente. Inglês intermediário.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Jovem Aprendiz -->
-            <div class="vaga" data-categoria="jovem-aprendiz">
-                <h3>Jovem Aprendiz Administrativo</h3>
-                <p><strong>Empresa:</strong> Itaú Unibanco</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 1.100,00</p>
-                <p>Suporte em rotinas administrativas. Ensino médio cursando.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="jovem-aprendiz">
-                <h3>Jovem Aprendiz Varejo</h3>
-                <p><strong>Empresa:</strong> Carrefour</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 1.050,00</p>
-                <p>Atendimento ao cliente e apoio em loja. Idade entre 14 e 24 anos.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Estágios -->
-            <div class="vaga" data-categoria="estágio">
-                <h3>Estagiário de Engenharia</h3>
-                <p><strong>Empresa:</strong> Petrobras</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 1.800,00</p>
-                <p>Apoio em projetos de engenharia. Cursando a partir do 5º semestre.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="estágio">
-                <h3>Estagiário de Direito</h3>
-                <p><strong>Empresa:</strong> Pinheiro Neto</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 2.500,00</p>
-                <p>Pesquisa jurídica e apoio em processos. Cursando a partir do 3º ano.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Telemarketing -->
-            <div class="vaga" data-categoria="telemarketing">
-                <h3>Atendente de Telemarketing</h3>
-                <p><strong>Empresa:</strong> Atento</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 1.600,00 + benefícios</p>
-                <p>Atendimento ao cliente via telefone. Ensino médio completo.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="telemarketing">
-                <h3>Operador de Chat</h3>
-                <p><strong>Empresa:</strong> Algar Tech</p>
-                <p><strong>Localização:</strong> Uberlândia, MG</p>
-                <p><strong>Salário:</strong> R$ 1.700,00</p>
-                <p>Atendimento ao cliente via chat online. Digitação rápida.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Meio Ambiente -->
-            <div class="vaga" data-categoria="meio-ambiente">
-                <h3>Engenheiro Ambiental</h3>
-                <p><strong>Empresa:</strong> Braskem</p>
-                <p><strong>Localização:</strong> Bahia, BA</p>
-                <p><strong>Salário:</strong> R$ 7.200,00</p>
-                <p>Gestão de projetos ambientais industriais. CREA ativo.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="meio-ambiente">
-                <h3>Técnico em Segurança do Trabalho</h3>
-                <p><strong>Empresa:</strong> Vale</p>
-                <p><strong>Localização:</strong> Minas Gerais, MG</p>
-                <p><strong>Salário:</strong> R$ 4.500,00</p>
-                <p>Inspeções de segurança e treinamentos. NRs atualizadas.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Agronegócio -->
-            <div class="vaga" data-categoria="agronegócio">
-                <h3>Técnico Agrícola</h3>
-                <p><strong>Empresa:</strong> JBS</p>
-                <p><strong>Localização:</strong> Goiás, GO</p>
-                <p><strong>Salário:</strong> R$ 3.200,00</p>
-                <p>Acompanhamento de safras e manejo. Experiência em grandes propriedades.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="agronegócio">
-                <h3>Engenheiro Agrônomo</h3>
-                <p><strong>Empresa:</strong> Syngenta</p>
-                <p><strong>Localização:</strong> Mato Grosso, MT</p>
-                <p><strong>Salário:</strong> R$ 8.000,00</p>
-                <p>Consultoria técnica para produtores rurais. CREA ativo.</p>
-                <span class="tag urgente">Urgente</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <!-- Serviços Gerais -->
-            <div class="vaga" data-categoria="serviços-gerais">
-                <h3>Servente de Limpeza</h3>
-                <p><strong>Empresa:</strong> LSH</p>
-                <p><strong>Localização:</strong> São Paulo, SP</p>
-                <p><strong>Salário:</strong> R$ 1.400,00</p>
-                <p>Limpeza de áreas comerciais. Experiência com produtos de limpeza.</p>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
-            
-            <div class="vaga" data-categoria="serviços-gerais">
-                <h3>Porteiro</h3>
-                <p><strong>Empresa:</strong> Portaria 24h</p>
-                <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
-                <p><strong>Salário:</strong> R$ 1.600,00</p>
-                <p>Controle de acesso em condomínio residencial. Disponibilidade para escala 12x36.</p>
-                <span class="tag novo">Novo</span>
-                <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
-            </div>
+      <div id="lista-vagas">
+        <!-- Tecnologia -->
+        <div class="vaga" data-categoria="tecnologia">
+          <h3>Desenvolvedor Front-End</h3>
+          <p><strong>Empresa:</strong> Tech Solutions</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 5.000,00</p>
+          <p>
+            Desenvolvimento de interfaces web com React e CSS. Experiência de 2
+            anos requerida.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
         </div>
+
+        <div class="vaga" data-categoria="tecnologia">
+          <h3>Desenvolvedor Back-End Java</h3>
+          <p><strong>Empresa:</strong> Banco Itaú</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 8.500,00</p>
+          <p>
+            Desenvolvimento de sistemas bancários com Java e Spring Boot.
+            Experiência com microsserviços.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="tecnologia">
+          <h3>Analista de Sistemas</h3>
+          <p><strong>Empresa:</strong> Stefanini</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 6.200,00</p>
+          <p>
+            Análise e desenvolvimento de sistemas corporativos. Conhecimento em
+            SQL e modelagem de dados.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="tecnologia">
+          <h3>Engenheiro de Dados</h3>
+          <p><strong>Empresa:</strong> Nubank</p>
+          <p><strong>Localização:</strong> Remoto</p>
+          <p><strong>Salário:</strong> R$ 12.000,00</p>
+          <p>
+            Construção e manutenção de pipelines de dados. Experiência com
+            Python, Spark e AWS.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="tecnologia">
+          <h3>Especialista em Cibersegurança</h3>
+          <p><strong>Empresa:</strong> IBM</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 9.500,00</p>
+          <p>
+            Proteção de sistemas contra ameaças digitais. Certificações em
+            segurança são diferenciais.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Marketing -->
+        <div class="vaga" data-categoria="marketing">
+          <h3>Gerente de Marketing Digital</h3>
+          <p><strong>Empresa:</strong> Ambev</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 7.800,00</p>
+          <p>
+            Gestão de estratégias digitais para marcas de bebidas. Experiência
+            com mídias sociais e performance.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="marketing">
+          <h3>Analista de Mídias Sociais</h3>
+          <p><strong>Empresa:</strong> Magazine Luiza</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.800,00</p>
+          <p>
+            Criação de conteúdo e gestão de comunidades online. Conhecimento em
+            TikTok e Instagram.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="marketing">
+          <h3>Especialista em SEO</h3>
+          <p><strong>Empresa:</strong> Mercado Livre</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 5.500,00</p>
+          <p>
+            Otimização de páginas de produtos para motores de busca. Experiência
+            com Google Analytics.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Administrativo -->
+        <div class="vaga" data-categoria="administrativo">
+          <h3>Assistente Administrativo</h3>
+          <p><strong>Empresa:</strong> Grupo Pão de Açúcar</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 2.200,00</p>
+          <p>
+            Suporte em rotinas administrativas e atendimento. Conhecimento em
+            pacote Office.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="administrativo">
+          <h3>Analista Financeiro</h3>
+          <p><strong>Empresa:</strong> Santander</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 4.500,00</p>
+          <p>
+            Análise de relatórios financeiros e projeções. Experiência com Excel
+            avançado.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Saúde -->
+        <div class="vaga" data-categoria="saúde">
+          <h3>Enfermeiro Intensivista</h3>
+          <p><strong>Empresa:</strong> Hospital Albert Einstein</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 5.800,00</p>
+          <p>Atendimento em UTI. Necessário registro no COREN.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="saúde">
+          <h3>Médico Cardiologista</h3>
+          <p><strong>Empresa:</strong> Hospital Sírio-Libanês</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 18.000,00</p>
+          <p>
+            Atendimento em cardiologia clínica. CRM ativo e especialização
+            comprovada.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Varejo -->
+        <div class="vaga" data-categoria="varejo">
+          <h3>Gerente de Loja</h3>
+          <p><strong>Empresa:</strong> Renner</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 4.200,00 + bônus</p>
+          <p>
+            Gestão de equipe comercial e operações de loja. Experiência no
+            varejo de moda.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="varejo">
+          <h3>Vendedor Experiente</h3>
+          <p><strong>Empresa:</strong> Havan</p>
+          <p><strong>Localização:</strong> Santa Catarina, SC</p>
+          <p><strong>Salário:</strong> R$ 1.800,00 + comissão</p>
+          <p>
+            Atendimento ao cliente e vendas de produtos diversos. Experiência no
+            varejo.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Educação -->
+        <div class="vaga" data-categoria="educação">
+          <h3>Professor de Inglês</h3>
+          <p><strong>Empresa:</strong> Cultura Inglesa</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.500,00</p>
+          <p>
+            Ministrar aulas para todos os níveis. Certificação CELTA ou
+            equivalente.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="educação">
+          <h3>Coordenador Pedagógico</h3>
+          <p><strong>Empresa:</strong> Escola Internacional</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 6.000,00</p>
+          <p>
+            Coordenação de equipe docente e desenvolvimento curricular.
+            Experiência em escolas bilíngues.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Logística -->
+        <div class="vaga" data-categoria="logística">
+          <h3>Coordenador de Logística</h3>
+          <p><strong>Empresa:</strong> JSL</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 5.500,00</p>
+          <p>
+            Planejamento de rotas e gestão de frota. Conhecimento em WMS e TMS.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="logística">
+          <h3>Motorista Caminhão</h3>
+          <p><strong>Empresa:</strong> Transportes Júlio</p>
+          <p><strong>Localização:</strong> Minas Gerais, MG</p>
+          <p><strong>Salário:</strong> R$ 3.200,00</p>
+          <p>
+            Transporte de cargas gerais. CNH E e experiência em viagens
+            interestaduais.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Construção Civil -->
+        <div class="vaga" data-categoria="construção">
+          <h3>Engenheiro Civil</h3>
+          <p><strong>Empresa:</strong> MRV</p>
+          <p><strong>Localização:</strong> Belo Horizonte, MG</p>
+          <p><strong>Salário:</strong> R$ 8.000,00</p>
+          <p>
+            Gerenciamento de obras residenciais. CREA ativo e experiência em
+            incorporadoras.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="construção">
+          <h3>Mestre de Obras</h3>
+          <p><strong>Empresa:</strong> Construtora Tenda</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.800,00</p>
+          <p>
+            Coordenação de equipe de pedreiros e auxiliares. Experiência em
+            obras habitacionais.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Indústria -->
+        <div class="vaga" data-categoria="indústria">
+          <h3>Técnico em Mecânica</h3>
+          <p><strong>Empresa:</strong> Volkswagen</p>
+          <p><strong>Localização:</strong> São Bernardo do Campo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.500,00</p>
+          <p>Manutenção de máquinas industriais. Curso técnico em mecânica.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="indústria">
+          <h3>Operador de Máquinas</h3>
+          <p><strong>Empresa:</strong> Ambev</p>
+          <p><strong>Localização:</strong> Jaguariúna, SP</p>
+          <p><strong>Salário:</strong> R$ 2.800,00</p>
+          <p>
+            Operação de máquinas de envase. Experiência em indústrias
+            alimentícias.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- RH -->
+        <div class="vaga" data-categoria="rh">
+          <h3>Analista de Recrutamento</h3>
+          <p><strong>Empresa:</strong> Robert Half</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 4.200,00</p>
+          <p>
+            Recrutamento e seleção para áreas de tecnologia. Experiência com
+            LinkedIn Recruiter.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="rh">
+          <h3>Especialista em Benefícios</h3>
+          <p><strong>Empresa:</strong> IBM</p>
+          <p><strong>Localização:</strong> Hortolândia, SP</p>
+          <p><strong>Salário:</strong> R$ 5.000,00</p>
+          <p>
+            Gestão de programas de benefícios corporativos. Conhecimento em
+            planos de saúde.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Jurídico -->
+        <div class="vaga" data-categoria="jurídico">
+          <h3>Advogado Trabalhista</h3>
+          <p><strong>Empresa:</strong> Mattos Filho</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 7.500,00</p>
+          <p>
+            Atuação em direito trabalhista para grandes clientes. OAB ativa.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="jurídico">
+          <h3>Assistente Jurídico</h3>
+          <p><strong>Empresa:</strong> Banco Bradesco</p>
+          <p><strong>Localização:</strong> Osasco, SP</p>
+          <p><strong>Salário:</strong> R$ 3.200,00</p>
+          <p>
+            Suporte em processos jurídicos e administrativos. Conhecimento em
+            direito bancário.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Design -->
+        <div class="vaga" data-categoria="design">
+          <h3>Designer Gráfico</h3>
+          <p><strong>Empresa:</strong> Agência DPZ</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.800,00</p>
+          <p>
+            Criação de peças gráficas para campanhas publicitárias. Domínio do
+            pacote Adobe.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="design">
+          <h3>UX/UI Designer</h3>
+          <p><strong>Empresa:</strong> iFood</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 6.500,00</p>
+          <p>
+            Design de interfaces para aplicativos mobile. Portfólio obrigatório.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Gastronomia -->
+        <div class="vaga" data-categoria="gastronomia">
+          <h3>Chef de Cozinha</h3>
+          <p><strong>Empresa:</strong> Restaurante Fasano</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 5.500,00</p>
+          <p>
+            Coordenação de equipe de cozinha em restaurante fino. Experiência em
+            cozinha italiana.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="gastronomia">
+          <h3>Auxiliar de Cozinha</h3>
+          <p><strong>Empresa:</strong> Outback</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 1.800,00</p>
+          <p>
+            Preparação de ingredientes e apoio ao chef. Experiência em cozinha
+            profissional.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Turismo -->
+        <div class="vaga" data-categoria="turismo">
+          <h3>Guia de Turismo</h3>
+          <p><strong>Empresa:</strong> CVC</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 2.500,00 + comissão</p>
+          <p>
+            Recepção e acompanhamento de turistas em pontos turísticos. Cadastur
+            obrigatório.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="turismo">
+          <h3>Agente de Viagens</h3>
+          <p><strong>Empresa:</strong> Decolar</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 2.200,00 + comissão</p>
+          <p>
+            Venda de pacotes turísticos e atendimento ao cliente. Inglês
+            intermediário.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Jovem Aprendiz -->
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Administrativo</h3>
+          <p><strong>Empresa:</strong> Itaú Unibanco</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 1.100,00</p>
+          <p>Suporte em rotinas administrativas. Ensino médio cursando.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Varejo</h3>
+          <p><strong>Empresa:</strong> Carrefour</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 1.050,00</p>
+          <p>
+            Atendimento ao cliente e apoio em loja. Idade entre 14 e 24 anos.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Estágios -->
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Engenharia</h3>
+          <p><strong>Empresa:</strong> Petrobras</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 1.800,00</p>
+          <p>
+            Apoio em projetos de engenharia. Cursando a partir do 5º semestre.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Direito</h3>
+          <p><strong>Empresa:</strong> Pinheiro Neto</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 2.500,00</p>
+          <p>
+            Pesquisa jurídica e apoio em processos. Cursando a partir do 3º ano.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Telemarketing -->
+        <div class="vaga" data-categoria="telemarketing">
+          <h3>Atendente de Telemarketing</h3>
+          <p><strong>Empresa:</strong> Atento</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 1.600,00 + benefícios</p>
+          <p>Atendimento ao cliente via telefone. Ensino médio completo.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="telemarketing">
+          <h3>Operador de Chat</h3>
+          <p><strong>Empresa:</strong> Algar Tech</p>
+          <p><strong>Localização:</strong> Uberlândia, MG</p>
+          <p><strong>Salário:</strong> R$ 1.700,00</p>
+          <p>Atendimento ao cliente via chat online. Digitação rápida.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Meio Ambiente -->
+        <div class="vaga" data-categoria="meio-ambiente">
+          <h3>Engenheiro Ambiental</h3>
+          <p><strong>Empresa:</strong> Braskem</p>
+          <p><strong>Localização:</strong> Bahia, BA</p>
+          <p><strong>Salário:</strong> R$ 7.200,00</p>
+          <p>Gestão de projetos ambientais industriais. CREA ativo.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="meio-ambiente">
+          <h3>Técnico em Segurança do Trabalho</h3>
+          <p><strong>Empresa:</strong> Vale</p>
+          <p><strong>Localização:</strong> Minas Gerais, MG</p>
+          <p><strong>Salário:</strong> R$ 4.500,00</p>
+          <p>Inspeções de segurança e treinamentos. NRs atualizadas.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Agronegócio -->
+        <div class="vaga" data-categoria="agronegócio">
+          <h3>Técnico Agrícola</h3>
+          <p><strong>Empresa:</strong> JBS</p>
+          <p><strong>Localização:</strong> Goiás, GO</p>
+          <p><strong>Salário:</strong> R$ 3.200,00</p>
+          <p>
+            Acompanhamento de safras e manejo. Experiência em grandes
+            propriedades.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+        <!-- Saúde -->
+        <div class="vaga" data-categoria="saúde">
+          <h3>Enfermeiro Intensivista</h3>
+          <p><strong>Empresa:</strong> Hospital Albert Einstein</p>
+          <p><strong>Localização:</strong> Morumbi, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 5.800,00</p>
+          <p>Atendimento em UTI. Necessário registro no COREN.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="saúde">
+          <h3>Médico Cardiologista</h3>
+          <p><strong>Empresa:</strong> Hospital Sírio-Libanês</p>
+          <p><strong>Localização:</strong> Bela Vista, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 18.000,00</p>
+          <p>
+            Atendimento em cardiologia clínica. CRM ativo e especialização
+            comprovada.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Educação -->
+        <div class="vaga" data-categoria="educação">
+          <h3>Professor de Inglês</h3>
+          <p><strong>Empresa:</strong> Cultura Inglesa</p>
+          <p><strong>Localização:</strong> Moema, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 3.500,00</p>
+          <p>
+            Ministrar aulas para todos os níveis. Certificação CELTA ou
+            equivalente.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="educação">
+          <h3>Coordenador Pedagógico</h3>
+          <p><strong>Empresa:</strong> Escola Internacional</p>
+          <p><strong>Localização:</strong> Jardins, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 6.000,00</p>
+          <p>
+            Coordenação de equipe docente e desenvolvimento curricular.
+            Experiência em escolas bilíngues.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Logística -->
+        <div class="vaga" data-categoria="logística">
+          <h3>Coordenador de Logística</h3>
+          <p><strong>Empresa:</strong> JSL</p>
+          <p><strong>Localização:</strong> Santo Amaro, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 5.500,00</p>
+          <p>
+            Planejamento de rotas e gestão de frota. Conhecimento em WMS e TMS.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Construção Civil -->
+        <div class="vaga" data-categoria="construção">
+          <h3>Mestre de Obras</h3>
+          <p><strong>Empresa:</strong> Construtora Tenda</p>
+          <p><strong>Localização:</strong> Zona Leste, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 3.800,00</p>
+          <p>
+            Coordenação de equipe de pedreiros e auxiliares. Experiência em
+            obras habitacionais.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Indústria -->
+        <div class="vaga" data-categoria="indústria">
+          <h3>Técnico em Mecânica</h3>
+          <p><strong>Empresa:</strong> Volkswagen</p>
+          <p><strong>Localização:</strong> São Bernardo do Campo, SP</p>
+          <p><strong>Salário:</strong> R$ 3.500,00</p>
+          <p>Manutenção de máquinas industriais. Curso técnico em mecânica.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- RH -->
+        <div class="vaga" data-categoria="rh">
+          <h3>Analista de Recrutamento</h3>
+          <p><strong>Empresa:</strong> Robert Half</p>
+          <p><strong>Localização:</strong> Brooklin, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 4.200,00</p>
+          <p>
+            Recrutamento e seleção para áreas de tecnologia. Experiência com
+            LinkedIn Recruiter.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="rh">
+          <h3>Especialista em Benefícios</h3>
+          <p><strong>Empresa:</strong> IBM</p>
+          <p><strong>Localização:</strong> Hortolândia, SP</p>
+          <p><strong>Salário:</strong> R$ 5.000,00</p>
+          <p>
+            Gestão de programas de benefícios corporativos. Conhecimento em
+            planos de saúde.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Jurídico -->
+        <div class="vaga" data-categoria="jurídico">
+          <h3>Advogado Trabalhista</h3>
+          <p><strong>Empresa:</strong> Mattos Filho</p>
+          <p><strong>Localização:</strong> Itaim Bibi, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 7.500,00</p>
+          <p>
+            Atuação em direito trabalhista para grandes clientes. OAB ativa.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Design -->
+        <div class="vaga" data-categoria="design">
+          <h3>Designer Gráfico</h3>
+          <p><strong>Empresa:</strong> Agência DPZ</p>
+          <p><strong>Localização:</strong> Vila Madalena, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 3.800,00</p>
+          <p>
+            Criação de peças gráficas para campanhas publicitárias. Domínio do
+            pacote Adobe.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="design">
+          <h3>UX/UI Designer</h3>
+          <p><strong>Empresa:</strong> iFood</p>
+          <p><strong>Localização:</strong> Pinheiros, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 6.500,00</p>
+          <p>
+            Design de interfaces para aplicativos mobile. Portfólio obrigatório.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Gastronomia -->
+        <div class="vaga" data-categoria="gastronomia">
+          <h3>Chef de Cozinha</h3>
+          <p><strong>Empresa:</strong> Restaurante Fasano</p>
+          <p><strong>Localização:</strong> Jardins, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 5.500,00</p>
+          <p>
+            Coordenação de equipe de cozinha em restaurante fino. Experiência em
+            cozinha italiana.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz TI</h3>
+          <p><strong>Empresa:</strong> TechSolutions</p>
+          <p><strong>Local:</strong> Centro</p>
+          <p><strong>Salário:</strong> R$ 1.100</p>
+          <p>Auxiliar em laboratório de informática. Idade 14-22 anos.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Adm</h3>
+          <p><strong>Empresa:</strong> Empresa Total</p>
+          <p><strong>Local:</strong> Mooca</p>
+          <p><strong>Salário:</strong> R$ 1.050</p>
+          <p>Atividades administrativas simples. Ensino médio cursando.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Comércio</h3>
+          <p><strong>Empresa:</strong> Lojas SP</p>
+          <p><strong>Local:</strong> Tatuapé</p>
+          <p><strong>Salário:</strong> R$ 1.000</p>
+          <p>Atendimento ao cliente e organização. Idade 16-24 anos.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Logística</h3>
+          <p><strong>Empresa:</strong> LogiFacil</p>
+          <p><strong>Local:</strong> Jabaquara</p>
+          <p><strong>Salário:</strong> R$ 1.100</p>
+          <p>Auxiliar no controle de estoque. Ensino médio cursando.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Varejo</h3>
+          <p><strong>Empresa:</strong> Supermercado Preço Bom</p>
+          <p><strong>Local:</strong> Zona Leste</p>
+          <p><strong>Salário:</strong> R$ 1.050</p>
+          <p>Reposição de mercadorias e atendimento. Idade 14-24 anos.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Banco</h3>
+          <p><strong>Empresa:</strong> Banco SP</p>
+          <p><strong>Local:</strong> Centro</p>
+          <p><strong>Salário:</strong> R$ 1.200</p>
+          <p>Auxiliar em serviços bancários. Ensino médio cursando.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Escritório</h3>
+          <p><strong>Empresa:</strong> Escritório Total</p>
+          <p><strong>Local:</strong> Vila Mariana</p>
+          <p><strong>Salário:</strong> R$ 1.100</p>
+          <p>Organização de documentos e arquivos. Idade 16-22 anos.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz RH</h3>
+          <p><strong>Empresa:</strong> RH Fácil</p>
+          <p><strong>Local:</strong> Santo Amaro</p>
+          <p><strong>Salário:</strong> R$ 1.150</p>
+          <p>Auxiliar em processos de recrutamento. Ensino médio cursando.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Atendimento</h3>
+          <p><strong>Empresa:</strong> CallCenter SP</p>
+          <p><strong>Local:</strong> Barra Funda</p>
+          <p><strong>Salário:</strong> R$ 1.100</p>
+          <p>Atendimento telefônico básico. Idade 16-24 anos.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Indústria</h3>
+          <p><strong>Empresa:</strong> Indústria Paulista</p>
+          <p><strong>Local:</strong> Zona Norte</p>
+          <p><strong>Salário:</strong> R$ 1.050</p>
+          <p>Auxiliar em linha de produção. Idade 18-24 anos.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+        <!-- Jovem Aprendiz -->
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Administrativo</h3>
+          <p><strong>Empresa:</strong> Itaú Unibanco</p>
+          <p><strong>Localização:</strong> Centro, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 1.100,00</p>
+          <p>Suporte em rotinas administrativas. Ensino médio cursando.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="jovem-aprendiz">
+          <h3>Jovem Aprendiz Varejo</h3>
+          <p><strong>Empresa:</strong> Carrefour</p>
+          <p><strong>Localização:</strong> Zona Norte, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 1.050,00</p>
+          <p>
+            Atendimento ao cliente e apoio em loja. Idade entre 14 e 24 anos.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Estágios -->
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Direito</h3>
+          <p><strong>Empresa:</strong> Pinheiro Neto</p>
+          <p><strong>Localização:</strong> Centro, São Paulo</p>
+          <p><strong>Salário:</strong> R$ 2.500,00</p>
+          <p>
+            Pesquisa jurídica e apoio em processos. Cursando a partir do 3º ano.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de TI</h3>
+          <p><strong>Empresa:</strong> TecnoSol</p>
+          <p><strong>Local:</strong> Paulista</p>
+          <p><strong>Bolsa:</strong> R$ 1.500 + VT</p>
+          <p>Suporte básico em TI. Conhecimento em Windows e pacote Office.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Desenvolvimento</h3>
+          <p><strong>Empresa:</strong> StartDev</p>
+          <p><strong>Local:</strong> Vila Olímpia</p>
+          <p><strong>Bolsa:</strong> R$ 1.800</p>
+          <p>Aprendizado em HTML/CSS básico. Não precisa experiência.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Suporte</h3>
+          <p><strong>Empresa:</strong> NetSupport</p>
+          <p><strong>Local:</strong> Santo Amaro</p>
+          <p><strong>Bolsa:</strong> R$ 1.400</p>
+          <p>Atender chamados simples de TI. Treinamento fornecido.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Marketing</h3>
+          <p><strong>Empresa:</strong> Mídia Digital</p>
+          <p><strong>Local:</strong> Itaim Bibi</p>
+          <p><strong>Bolsa:</strong> R$ 1.600</p>
+          <p>Auxiliar em redes sociais. Não precisa experiência.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Dados</h3>
+          <p><strong>Empresa:</strong> DataInfo</p>
+          <p><strong>Local:</strong> Brooklin</p>
+          <p><strong>Bolsa:</strong> R$ 2.000</p>
+          <p>Organizar planilhas em Excel. Conhecimento básico.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Redes</h3>
+          <p><strong>Empresa:</strong> ConnectNet</p>
+          <p><strong>Local:</strong> Barra Funda</p>
+          <p><strong>Bolsa:</strong> R$ 1.700</p>
+          <p>Auxiliar na manutenção de redes. Curso técnico em andamento.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de UX</h3>
+          <p><strong>Empresa:</strong> DigitalUX</p>
+          <p><strong>Local:</strong> Pinheiros</p>
+          <p><strong>Bolsa:</strong> R$ 1.900</p>
+          <p>Auxiliar em testes de usabilidade. Não precisa experiência.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de QA</h3>
+          <p><strong>Empresa:</strong> QualiTest</p>
+          <p><strong>Local:</strong> Itaquera</p>
+          <p><strong>Bolsa:</strong> R$ 1.650</p>
+          <p>Testes básicos de software. Treinamento fornecido.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Mobile</h3>
+          <p><strong>Empresa:</strong> AppSolutions</p>
+          <p><strong>Local:</strong> Moema</p>
+          <p><strong>Bolsa:</strong> R$ 2.100</p>
+          <p>
+            Auxiliar no desenvolvimento de apps. Conhecimento básico em
+            programação.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Cloud</h3>
+          <p><strong>Empresa:</strong> CloudSP</p>
+          <p><strong>Local:</strong> Vila Olímpia</p>
+          <p><strong>Bolsa:</strong> R$ 2.200</p>
+          <p>Auxiliar em migração para nuvem. Conhecimento básico em TI.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de DevOps</h3>
+          <p><strong>Empresa:</strong> DevTech</p>
+          <p><strong>Local:</strong> Berrini</p>
+          <p><strong>Bolsa:</strong> R$ 2.300</p>
+          <p>
+            Auxiliar em automação de processos. Conhecimento básico em Linux.
+          </p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de IA</h3>
+          <p><strong>Empresa:</strong> AITech</p>
+          <p><strong>Local:</strong> Faria Lima</p>
+          <p><strong>Bolsa:</strong> R$ 2.400</p>
+          <p>
+            Auxiliar em projetos de inteligência artificial. Conhecimento básico
+            em Python.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Banco de Dados</h3>
+          <p><strong>Empresa:</strong> DataMaster</p>
+          <p><strong>Local:</strong> Centro</p>
+          <p><strong>Bolsa:</strong> R$ 1.900</p>
+          <p>Auxiliar em consultas SQL básicas. Treinamento fornecido.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Segurança</h3>
+          <p><strong>Empresa:</strong> SecureNet</p>
+          <p><strong>Local:</strong> Brooklin</p>
+          <p><strong>Bolsa:</strong> R$ 2.100</p>
+          <p>
+            Auxiliar em testes de vulnerabilidade. Conhecimento básico em redes.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Front-end</h3>
+          <p><strong>Empresa:</strong> WebDesign</p>
+          <p><strong>Local:</strong> Pinheiros</p>
+          <p><strong>Bolsa:</strong> R$ 1.800</p>
+          <p>Auxiliar no desenvolvimento de interfaces. HTML/CSS básico.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Back-end</h3>
+          <p><strong>Empresa:</strong> CodeLogic</p>
+          <p><strong>Local:</strong> Vila Madalena</p>
+          <p><strong>Bolsa:</strong> R$ 2.000</p>
+          <p>Auxiliar no desenvolvimento de APIs. Lógica de programação.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Full-stack</h3>
+          <p><strong>Empresa:</strong> DevFull</p>
+          <p><strong>Local:</strong> Itaim Bibi</p>
+          <p><strong>Bolsa:</strong> R$ 2.200</p>
+          <p>Auxiliar em desenvolvimento web completo. Conhecimento básico.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Testes</h3>
+          <p><strong>Empresa:</strong> QualiSoft</p>
+          <p><strong>Local:</strong> Santo Amaro</p>
+          <p><strong>Bolsa:</strong> R$ 1.700</p>
+          <p>Executar testes manuais em software. Não precisa experiência.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Infra</h3>
+          <p><strong>Empresa:</strong> InfraTech</p>
+          <p><strong>Local:</strong> Jabaquara</p>
+          <p><strong>Bolsa:</strong> R$ 1.900</p>
+          <p>Auxiliar na manutenção de servidores. Conhecimento básico.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Dados</h3>
+          <p><strong>Empresa:</strong> AnalyticsSP</p>
+          <p><strong>Local:</strong> Berrini</p>
+          <p><strong>Bolsa:</strong> R$ 2.100</p>
+          <p>Auxiliar na análise de dados. Excel intermediário.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de BI</h3>
+          <p><strong>Empresa:</strong> BusinessIntel</p>
+          <p><strong>Local:</strong> Faria Lima</p>
+          <p><strong>Bolsa:</strong> R$ 2.300</p>
+          <p>Auxiliar na criação de dashboards. Power BI básico.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de IoT</h3>
+          <p><strong>Empresa:</strong> InternetTudo</p>
+          <p><strong>Local:</strong> Pinheiros</p>
+          <p><strong>Bolsa:</strong> R$ 2.000</p>
+          <p>Auxiliar em projetos de IoT. Conhecimento básico em eletrônica.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de Games</h3>
+          <p><strong>Empresa:</strong> GameDev</p>
+          <p><strong>Local:</strong> Vila Madalena</p>
+          <p><strong>Bolsa:</strong> R$ 1.800</p>
+          <p>Auxiliar no desenvolvimento de jogos. Unity básico.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de ERP</h3>
+          <p><strong>Empresa:</strong> SistemasBR</p>
+          <p><strong>Local:</strong> Centro</p>
+          <p><strong>Bolsa:</strong> R$ 1.900</p>
+          <p>Auxiliar na implementação de ERP. Treinamento fornecido.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="estágio">
+          <h3>Estagiário de CRM</h3>
+          <p><strong>Empresa:</strong> ClientHub</p>
+          <p><strong>Local:</strong> Itaim Bibi</p>
+          <p><strong>Bolsa:</strong> R$ 2.000</p>
+          <p>Auxiliar na configuração de CRM. Não precisa experiência.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="administrativo">
+          <h3>Auxiliar Adm</h3>
+          <p><strong>Empresa:</strong> OfficeBrasil</p>
+          <p><strong>Local:</strong> Vila Mariana</p>
+          <p><strong>Salário:</strong> R$ 1.900</p>
+          <p>Organizar documentos e atender telefone. Excel básico.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="atendimento">
+          <h3>Atendente</h3>
+          <p><strong>Empresa:</strong> Lanchonete Top</p>
+          <p><strong>Local:</strong> Pinheiros</p>
+          <p><strong>Salário:</strong> R$ 1.650</p>
+          <p>Atender clientes e operar caixa. Treinamento dado.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="serviços">
+          <h3>Recepcionista</h3>
+          <p><strong>Empresa:</strong> Clínica Saúde</p>
+          <p><strong>Local:</strong> Moema</p>
+          <p><strong>Salário:</strong> R$ 1.800</p>
+          <p>Atender pacientes e marcar consultas. Não precisa experiência.</p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+
+        <div class="vaga" data-categoria="serviços">
+          <h3>Auxiliar de Limpeza</h3>
+          <p><strong>Empresa:</strong> LimpService</p>
+          <p><strong>Local:</strong> Zona Sul</p>
+          <p><strong>Salário:</strong> R$ 1.500</p>
+          <p>Limpeza de escritórios. Não requer experiência.</p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar</a>
+        </div>
+        <div class="vaga" data-categoria="agronegócio">
+          <h3>Engenheiro Agrônomo</h3>
+          <p><strong>Empresa:</strong> Syngenta</p>
+          <p><strong>Localização:</strong> Mato Grosso, MT</p>
+          <p><strong>Salário:</strong> R$ 8.000,00</p>
+          <p>Consultoria técnica para produtores rurais. CREA ativo.</p>
+          <span class="tag urgente">Urgente</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <!-- Serviços Gerais -->
+        <div class="vaga" data-categoria="serviços-gerais">
+          <h3>Servente de Limpeza</h3>
+          <p><strong>Empresa:</strong> LSH</p>
+          <p><strong>Localização:</strong> São Paulo, SP</p>
+          <p><strong>Salário:</strong> R$ 1.400,00</p>
+          <p>
+            Limpeza de áreas comerciais. Experiência com produtos de limpeza.
+          </p>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+
+        <div class="vaga" data-categoria="serviços-gerais">
+          <h3>Porteiro</h3>
+          <p><strong>Empresa:</strong> Portaria 24h</p>
+          <p><strong>Localização:</strong> Rio de Janeiro, RJ</p>
+          <p><strong>Salário:</strong> R$ 1.600,00</p>
+          <p>
+            Controle de acesso em condomínio residencial. Disponibilidade para
+            escala 12x36.
+          </p>
+          <span class="tag novo">Novo</span>
+          <a href="candidatura.html" class="btn-candidatar">Candidatar-se</a>
+        </div>
+      </div>
     </section>
 
     <footer>
-        <p>© 2025 Vagas Brasil. Todos os direitos reservados.</p>
+      <p>© 2025 Vagas Brasil. Todos os direitos reservados.</p>
     </footer>
 
-    <script>
-        function buscarVagas() {
-            const termo = document.getElementById('busca').value.toLowerCase();
-            const vagas = document.querySelectorAll('.vaga');
-            vagas.forEach(vaga => {
-                const texto = vaga.innerText.toLowerCase();
-                vaga.style.display = texto.includes(termo) ? 'block' : 'none';
-            });
-        }
+        <script>
+      // Configuração da paginação
+      const vagasPorPagina = 10;
+      let paginaAtual = 1;
+      let vagasFiltradas = [];
 
-        document.querySelectorAll('.vaga').forEach(vaga => {
-            vaga.addEventListener('mouseover', () => {
-                vaga.style.transform = 'scale(1.02)';
-                vaga.style.transition = 'transform 0.3s ease';
-            });
-            vaga.addEventListener('mouseout', () => {
-                vaga.style.transform = 'scale(1)';
-            });
+      // Função para exibir as vagas da página atual
+      function exibirVagas() {
+        const todasVagas = Array.from(document.querySelectorAll(".vaga"));
+        console.log("Total de vagas encontradas:", todasVagas.length); // Depuração
+
+        // Esconde todas as vagas
+        todasVagas.forEach((vaga) => {
+          vaga.classList.remove("ativo");
         });
 
-        // Função para abrir/fechar o menu hambúrguer
-        function toggleMenu() {
-            const menu = document.querySelector('.menu');
-            menu.classList.toggle('active');
+        // Determina quais vagas exibir (filtradas ou todas)
+        const vagasAtivas = vagasFiltradas.length > 0 ? vagasFiltradas : todasVagas;
+        const totalPaginas = Math.ceil(vagasAtivas.length / vagasPorPagina);
+        console.log("Total de páginas:", totalPaginas); // Depuração
+
+        // Ajusta página atual se necessário
+        if (paginaAtual > totalPaginas) {
+          paginaAtual = totalPaginas || 1;
         }
+        if (paginaAtual < 1) {
+          paginaAtual = 1;
+        }
+
+        // Calcula índices das vagas a serem exibidas
+        const inicio = (paginaAtual - 1) * vagasPorPagina;
+        const fim = inicio + vagasPorPagina;
+
+        // Exibe apenas as vagas da página atual
+        vagasAtivas.slice(inicio, fim).forEach((vaga) => {
+          vaga.classList.add("ativo");
+        });
+
+        // Atualiza texto da página atual
+        document.getElementById("pagina-atual").textContent = `Página ${paginaAtual} de ${totalPaginas || 1}`;
+
+        // Habilita/desabilita botões
+        document.querySelector(".paginacao button:first-child").disabled = paginaAtual === 1;
+        document.querySelector(".paginacao button:last-child").disabled = paginaAtual === totalPaginas || totalPaginas === 0;
+      }
+
+      // Função para mudar de página
+      function mudarPagina(direcao) {
+        const totalPaginas = Math.ceil(
+          (vagasFiltradas.length > 0 ? vagasFiltradas.length : document.querySelectorAll(".vaga").length) / vagasPorPagina
+        );
+        if (direcao === "proxima" && paginaAtual < totalPaginas) {
+          paginaAtual++;
+        } else if (direcao === "anterior" && paginaAtual > 1) {
+          paginaAtual--;
+        }
+        exibirVagas();
+      }
+
+      // Função de busca adaptada para paginação
+      function buscarVagas() {
+        const termo = document.getElementById("busca").value.toLowerCase();
+        const todasVagas = Array.from(document.querySelectorAll(".vaga"));
+        vagasFiltradas = [];
+
+        todasVagas.forEach((vaga) => {
+          const texto = vaga.innerText.toLowerCase();
+          if (texto.includes(termo)) {
+            vagasFiltradas.push(vaga);
+          }
+        });
+
+        console.log("Vagas filtradas:", vagasFiltradas.length); // Depuração
+        paginaAtual = 1; // Reseta para a primeira página
+        exibirVagas();
+      }
+
+      // Efeitos de hover nas vagas
+      document.querySelectorAll(".vaga").forEach((vaga) => {
+        vaga.addEventListener("mouseover", () => {
+          vaga.style.transform = "scale(1.02)";
+          vaga.style.transition = "transform 0.3s ease";
+        });
+        vaga.addEventListener("mouseout", () => {
+          vaga.style.transform = "scale(1)";
+        });
+      });
+
+      // Função para abrir/fechar o menu hambúrguer
+      function toggleMenu() {
+        const menu = document.querySelector(".menu");
+        menu.classList.toggle("active");
+      }
+
+      // Inicializa a primeira página
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("Página carregada, exibindo vagas..."); // Depuração
+        exibirVagas();
+      });
     </script>
-</body>
+  </body>
 </html>
